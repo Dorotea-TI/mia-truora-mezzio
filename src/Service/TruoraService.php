@@ -32,7 +32,7 @@ class TruoraService
      *
      * @param string $nationalId
      * @param string $country
-     * @return void
+     * @return Object
      */
     public function createCheckPerson($nationalId, $country)
     {
@@ -45,7 +45,7 @@ class TruoraService
      * @param string $country
      * @param string $type
      * @param string $userAuthorized
-     * @return void
+     * @return Object
      */
     public function createCheck($nationalId, $country, $type, $userAuthorized)
     {
