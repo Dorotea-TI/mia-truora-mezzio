@@ -36,7 +36,7 @@ class TruoraService
      */
     public function createCheckPerson($nationalId, $country)
     {
-        return $this->createCheck($nationalId, 'CO', 'person', 'true');
+        return $this->createCheck($nationalId, $country, 'person', 'true');
     }
     /**
      * Generar un Check
@@ -69,25 +69,23 @@ class TruoraService
      */
     protected function generateRequest($method, $path, $params = null)
     {
-        $headers = [
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-            'Truora-API-Key' => $this->apiKey
-        ];
-
-        if($params != null){
-            $response = $this->guzzle->request($method, $path, [
-                'headers' => $headers,
-                'form_params' => $params
+        $request = new Request(
+            $method, 
+            self::BASE_URL . $path, 
+            [
+                'Accept' => '*/*',
+                'Content-Type' => 'application/x-www-form-urlencoded',
+                'Truora-API-Key' => $this->apiKey
             ]);
-        } else {
-            $response = $this->guzzle->request($method, $path, ['headers' => $headers]);
-        }
 
-        if($response->getStatusCode() == 200){
+        $response = $this->guzzle->send($request, [
+            'form_params' => $params
+        ]);
+        
+        if($response->getStatusCode() == 200||$response->getStatusCode() == 201){
             return json_decode($response->getBody()->getContents());
         }
-
+        
         return null;
     }
 
