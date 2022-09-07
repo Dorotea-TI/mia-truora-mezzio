@@ -39,6 +39,16 @@ class TruoraService
         return $this->createCheck($nationalId, $country, 'person', 'true');
     }
     /**
+     *
+     * @param string $nationalId
+     * @param string $country
+     * @return Object
+     */
+    public function createCheckPersonForeign($foreignId, $country)
+    {
+        return $this->createCheckForeign($foreignId, $country, 'person', 'true');
+    }
+    /**
      * Generar un Check
      *
      * @param string $nationalId
@@ -51,6 +61,24 @@ class TruoraService
     {
         return $this->generateRequest('POST', '/checks', [
             'national_id' => $nationalId,
+            'country' => $country,
+            'type' => $type,
+            'user_authorized' => $userAuthorized
+        ]);
+    }
+    /**
+     * Generar un Check
+     *
+     * @param string $nationalId
+     * @param string $country
+     * @param string $type
+     * @param string $userAuthorized
+     * @return Object
+     */
+    public function createCheckForeign($foreignId, $country, $type, $userAuthorized)
+    {
+        return $this->generateRequest('POST', '/checks', [
+            'foreign_id' => $foreignId,
             'country' => $country,
             'type' => $type,
             'user_authorized' => $userAuthorized
